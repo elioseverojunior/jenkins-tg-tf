@@ -87,7 +87,7 @@ inputs = {
     ECS Task Definition Inputs
   */
   image = "jenkins/jenkins:latest"
-  
+
   /*
     Tags Inputs
   */

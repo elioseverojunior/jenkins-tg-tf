@@ -1,3 +1,0 @@
-inputs = {
-  application = "jenkins-master"
-}

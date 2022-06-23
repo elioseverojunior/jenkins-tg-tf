@@ -1,3 +1,0 @@
-inputs = {
-  team = "sre"
-}

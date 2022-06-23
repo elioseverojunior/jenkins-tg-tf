@@ -27,7 +27,7 @@ terraform {
 inputs = {
   ecr_name = "jenkins"
   tags = {
-    "Name"        = "jenkins-ecr-registry"
+    "Name"     = "jenkins-ecr-registry"
     "ansible"  = "false"
     "deployer" = "elio.severo@passeidireto.com"
     "iac"      = "terraform"

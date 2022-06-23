@@ -91,7 +91,7 @@ resource "aws_ecs_service" "jenkins_ecs_service" {
     field = "cpu"
     type  = "binpack"
   }
-  
+
   ordered_placement_strategy {
     field = "memory"
     type  = "binpack"
@@ -102,7 +102,7 @@ resource "aws_ecs_service" "jenkins_ecs_service" {
     rollback = true
   }
 
-  tags = merge(var.tags, { Name = format("%s-svc", local.prefix_name_lower) })
+  tags           = merge(var.tags, { Name = format("%s-svc", local.prefix_name_lower) })
   propagate_tags = "TASK_DEFINITION"
 }
 

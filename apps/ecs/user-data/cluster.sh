@@ -31,7 +31,7 @@ main () {
 		vim
 	sudo python3 -m pip install -U pip setuptools
 	sudo pip3 install boto3 ansible ansible-lint
-	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.0.30.zip" -o "awscliv2.zip"
+	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 	unzip ./awscliv2.zip
 	sudo ./aws/install && rm -rf ./aws
 	sudo mkdir -p /mnt/efs
@@ -52,10 +52,10 @@ function create_efs_mount_point {
 	check_cmd=$(ls -d ${efs_mount_point})
 
 	if [[ -z $check_cmd ]]; then
-		echo "Creating mount point"
+		echo "Creating mounting point"
 		mkdir -p ${efs_mount_point}
 	else
-		echo "Mount point exists"
+		echo "Mounting point already exists"
 	fi
 }
 
@@ -82,18 +82,18 @@ function mount_file_system() {
 		sudo mount -a
 		echo "EFS Already mounted"
 	fi
-	
+
 	echo "Fixing permissions"
 	sudo chmod go+rw ${efs_mount_point}
-	if [[ ! -d "${efs_mount_point}/jenkins" ]]; then
+	if [[ ! -d "${efs_mount_point}" ]]; then
 		echo "Creating jenkins dir"
-		sudo mkdir -p ${efs_mount_point}/jenkins
+		sudo mkdir -p ${efs_mount_point}
 		echo "Fixing permission to Jenkins User"
-		sudo chown -R 1000:1000 ${efs_mount_point}/jenkins/
+		sudo chown -R 1000:1000 ${efs_mount_point}
 	else
 		echo "EFS directory exists"
 		echo "Fixing permission to Jenkins User"
-		sudo chown -R 1000:1000 ${efs_mount_point}/jenkins/
+		sudo chown -R 1000:1000 ${efs_mount_point}
 	fi
 }
 

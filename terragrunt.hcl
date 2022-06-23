@@ -1,34 +1,41 @@
 skip                          = true
 terragrunt_version_constraint = ">= 0.32"
 
+locals {
+  assume_role_name = "OrganizationAccountAccessRole"
+  /*
+  git_hash         = "${run_cmd("--terragrunt-quiet", "git", "rev-parse", "HEAD")}"
+  git_repo_name    = "${run_cmd("--terragrunt-quiet", "/bin/bash", "-c", format("%s/scripts/git_repo_url.sh", get_parent_terragrunt_dir()))}"
+  git_short_hash   = "${run_cmd("--terragrunt-quiet", "git", "rev-parse", "--short", "HEAD")}"
+  */
+  organization  = "Nutrien"
+  tfenv         = format("%s/scripts/tfenv.sh", get_parent_terragrunt_dir())
+  tfenv_version = "1.2.0"
+
+  inputs = {
+    oauth_client_id               = "oc-WTnMuScFGxfEMn3h"
+    private_ssh_pem_key_name      = "wolfpack-devops"
+    structured_run_output_enabled = true
+    tfenv                         = local.tfenv
+    tfenv_version                 = local.tfenv_version
+  }
+}
+
+inputs = local.inputs
+
 remote_state {
   backend = "s3"
 
   config = {
-    encrypt = true
-    bucket  = "pd-sre-production"
-    key     = "${path_relative_to_include()}/terraform.tfstate"
-    region  = "us-east-2"
+    encrypt                   = true
+    bucket                    = "nutrien-terraform-br-production"
+    key                       = "${path_relative_to_include()}/terraform.tfstate"
+    accesslogging_bucket_name = "nutrien-terraform-br-production-logs"
+    region                    = "us-east-2"
   }
 
   generate = {
     path      = "backend.tf"
     if_exists = "overwrite_terragrunt"
   }
-}
-
-inputs = {
-  tags = {
-    "ansible"  = false
-    "deployer" = "elio.severo@passeidireto.com"
-    "iac"      = "terraform"
-    "owner"    = "SRE"
-    "project"  = "TBD"
-    "region"   = "TBD"
-    "repo"     = "https://github.com/PasseiDireto/terraform-jenkins-iac.git"
-    "stack"    = "TBD"
-    "tier"     = "infra"
-    "vpc_id"   = "TBD"
-  }
-  tfenv = "${get_parent_terragrunt_dir()}/scripts/tfenv.sh"
 }

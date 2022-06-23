@@ -1,9 +1,13 @@
 dependencies {
-  paths = ["../vpc"]
+  paths = ["../vpc", "../efs"]
 }
 
 dependency "vpc" {
   config_path = "../vpc"
+}
+
+dependency "efs" {
+  config_path = "../efs"
 }
 
 locals {
@@ -60,32 +64,40 @@ include "application" {
 }
 
 terraform {
-  source = "../../../../../../apps//efs/"
+  source = "../../../../../../apps//ecs/"
 
-  before_hook "tfenv" {
-    commands = ["init", "plan", "apply", "import", "push", "refresh", "validate", "destroy"]
-    execute = ["bash", "-c", "${include.root.inputs.tfenv}", local.tfenv_version]
+  before_hook "tfenv_install" {
+    commands = ["init", "plan", "apply", "destroy", "validate"]
+    execute  = ["tfenv", "install", local.tfenv_version]
+  }
+
+  before_hook "tfenv_use" {
+    commands = ["init", "plan", "apply", "destroy", "validate"]
+    execute  = ["tfenv", "use", local.tfenv_version]
   }
 }
 
 inputs = {
+  image                         = "jenkins/jenkins:2.263"
+  key_pair_name                 = "sre-sandbox"
+  enable_internal_load_balancer = false
+
   /*
     Tags Inputs
   */
   tags = merge(include.root.inputs.tags,
     {
-      "ansible"  = false
-      "deployer" = "elio.severo@passeidireto.com"
-      "iac"      = "terraform"
-      "owner"    = "SRE"
-      "project"  = "efs"
       "region"   = include.region.inputs.aws_region
-      "repo"     = "https://github.com/PasseiDireto/terraform-jenkins-iac.git"
       "stack"    = include.environment.inputs.environment
-      "tier"     = "infra"
       "vpc_id"   = include.environment.inputs.vpc_id
     }
   )
+
+  /*
+    EFS inputs
+  */
+  efs_file_system_id  = dependency.efs.outputs.efs_id
+  efs_access_point_id = dependency.efs.outputs.efs_access_point_id
 
   /*
     Security Groups Inputs
