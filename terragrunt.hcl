@@ -10,14 +10,11 @@ locals {
   */
   organization  = "Nutrien"
   tfenv         = format("%s/scripts/tfenv.sh", get_parent_terragrunt_dir())
-  tfenv_version = "1.2.0"
+  tfenv_version = "1.2.3"
 
   inputs = {
-    oauth_client_id               = "oc-WTnMuScFGxfEMn3h"
-    private_ssh_pem_key_name      = "wolfpack-devops"
-    structured_run_output_enabled = true
-    tfenv                         = local.tfenv
-    tfenv_version                 = local.tfenv_version
+    tfenv         = local.tfenv
+    tfenv_version = local.tfenv_version
   }
 }
 

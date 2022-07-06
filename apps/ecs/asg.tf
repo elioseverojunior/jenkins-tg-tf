@@ -3,7 +3,7 @@ data "aws_ami" "amazon_linux" {
 
   filter {
     name   = "name"
-    values = ["amzn-ami*amazon-ecs-optimized"]
+    values = ["amzn2-ami-ecs-hvm*"]
   }
 
   filter {
@@ -15,7 +15,8 @@ data "aws_ami" "amazon_linux" {
     name   = "virtualization-type"
     values = ["hvm"]
   }
-  owners = ["amazon", "self"]
+
+  owners = ["amazon", "self", "591542846629"]
 }
 
 data "template_file" "cluster_user_data" {
@@ -36,6 +37,17 @@ resource "aws_launch_configuration" "lc" {
   iam_instance_profile = aws_iam_instance_profile.ecs_service_role.name
   security_groups      = [var.security_group_jenkins_id]
   user_data            = data.template_file.cluster_user_data.rendered
+
+  root_block_device {
+    delete_on_termination = true
+    encrypted             = true
+  }
+
+  /* ebs_block_device {
+    delete_on_termination = true
+    encrypted             = true
+  } */
+
   lifecycle {
     create_before_destroy = true
   }
@@ -49,7 +61,7 @@ resource "aws_autoscaling_group" "asg" {
   desired_capacity          = 1
   health_check_type         = "EC2"
   health_check_grace_period = 300
-  vpc_zone_identifier       = var.public_subnets_ids
+  vpc_zone_identifier       = var.subnets_public_ids
   termination_policies      = ["OldestInstance"]
   protect_from_scale_in     = true
   force_delete              = true

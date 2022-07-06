@@ -57,22 +57,22 @@
 | <a name="input_lambda_subnet_tag_filter"></a> [lambda\_subnet\_tag\_filter](#input\_lambda\_subnet\_tag\_filter) | Tag to be filter in subnets | `map(any)` | <pre>{<br>  "Name": "*private*",<br>  "lambda": "yes"<br>}</pre> | no |
 | <a name="input_public_subnet_tag_filter"></a> [public\_subnet\_tag\_filter](#input\_public\_subnet\_tag\_filter) | Tag to be filter in subnets | `map(any)` | <pre>{<br>  "Name": "*public*"<br>}</pre> | no |
 | <a name="input_selected_subnets"></a> [selected\_subnets](#input\_selected\_subnets) | description | `list(string)` | `[]` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | AWS Tags Standards | `map(string)` | <pre>{<br>  "ansible": false,<br>  "deployer": "TBD",<br>  "iac": "terraform",<br>  "owner": "SRE",<br>  "project": "TBD",<br>  "region": "TBD",<br>  "repo": "https://github.com/PasseiDireto/terraform-jenkins-iac.git",<br>  "stack": "TBD",<br>  "tier": "infra"<br>}</pre> | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | AWS Tags Standards | `map(string)` | <pre>{<br>  "ansible": false,<br>  "deployer": "TBD",<br>  "iac": "terraform",<br>  "owner": "SRE",<br>  "project": "TBD",<br>  "region": "TBD",<br>  "repo": "https://github.com/Agrium/tf-jenkins-br.git",<br>  "stack": "TBD",<br>  "tier": "infra"<br>}</pre> | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | AWS VPC ID | `string` | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_all_cidr_blocks"></a> [all\_cidr\_blocks](#output\_all\_cidr\_blocks) | All Subnets CIDR Blocks |
-| <a name="output_all_subnets_ids"></a> [all\_subnets\_ids](#output\_all\_subnets\_ids) | All Subnets IDs |
-| <a name="output_all_subnets_map"></a> [all\_subnets\_map](#output\_all\_subnets\_map) | All Subnets |
-| <a name="output_private_cidr_blocks"></a> [private\_cidr\_blocks](#output\_private\_cidr\_blocks) | Private Subnets CIDR Blocks |
-| <a name="output_private_subnets_ids"></a> [private\_subnets\_ids](#output\_private\_subnets\_ids) | Private Subnets IDs |
-| <a name="output_private_subnets_map"></a> [private\_subnets\_map](#output\_private\_subnets\_map) | Private Subnets |
-| <a name="output_public_cidr_blocks"></a> [public\_cidr\_blocks](#output\_public\_cidr\_blocks) | Public Subnets CIDR Blocks |
-| <a name="output_public_subnets_ids"></a> [public\_subnets\_ids](#output\_public\_subnets\_ids) | Public Subnets IDs |
-| <a name="output_public_subnets_map"></a> [public\_subnets\_map](#output\_public\_subnets\_map) | Public Subnets |
+| <a name="output_cidr_blocks_all"></a> [all\_cidr\_blocks](#output\_all\_cidr\_blocks) | All Subnets CIDR Blocks |
+| <a name="output_subnets_all_ids"></a> [all\_subnets\_ids](#output\_all\_subnets\_ids) | All Subnets IDs |
+| <a name="output_subnets_all_map"></a> [all\_subnets\_map](#output\_all\_subnets\_map) | All Subnets |
+| <a name="output_cidr_blocks_private"></a> [private\_cidr\_blocks](#output\_private\_cidr\_blocks) | Private Subnets CIDR Blocks |
+| <a name="output_subnets_private_ids"></a> [private\_subnets\_ids](#output\_private\_subnets\_ids) | Private Subnets IDs |
+| <a name="output_subnets_private_map"></a> [private\_subnets\_map](#output\_private\_subnets\_map) | Private Subnets |
+| <a name="output_cidr_blocks_public"></a> [public\_cidr\_blocks](#output\_public\_cidr\_blocks) | Public Subnets CIDR Blocks |
+| <a name="output_subnets_public_ids"></a> [public\_subnets\_ids](#output\_public\_subnets\_ids) | Public Subnets IDs |
+| <a name="output_subnets_public_map"></a> [public\_subnets\_map](#output\_public\_subnets\_map) | Public Subnets |
 | <a name="output_security_group_efs_id"></a> [security\_group\_efs\_id](#output\_security\_group\_efs\_id) | EFS Security Group Id |
 | <a name="output_security_group_jenkins_agent_id"></a> [security\_group\_jenkins\_agent\_id](#output\_security\_group\_jenkins\_agent\_id) | Jenkins Agent Security Group Id |
 | <a name="output_security_group_jenkins_id"></a> [security\_group\_jenkins\_id](#output\_security\_group\_jenkins\_id) | Jenkins Security Group Id |

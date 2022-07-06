@@ -101,15 +101,5 @@ variable "jnlp_port" {
 variable "tags" {
   description = "AWS Tags Standards"
   type        = map(string)
-  default = {
-    "ansible"  = false
-    "deployer" = "TBD"
-    "iac"      = "terraform"
-    "owner"    = "SRE"
-    "project"  = "TBD"
-    "region"   = "TBD"
-    "repo"     = "https://github.com/PasseiDireto/terraform-jenkins-iac.git"
-    "stack"    = "TBD"
-    "tier"     = "infra"
-  }
+  default     = {}
 }

@@ -9,7 +9,7 @@ resource "aws_security_group" "lb_to_tg_sg" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.all_cidr_blocks
+    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.cidr_blocks_all
   }
 
   ingress {
@@ -17,7 +17,7 @@ resource "aws_security_group" "lb_to_tg_sg" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.all_cidr_blocks
+    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.cidr_blocks_all
   }
 
   ingress {
@@ -25,7 +25,7 @@ resource "aws_security_group" "lb_to_tg_sg" {
     from_port   = 8080
     to_port     = 8080
     protocol    = "tcp"
-    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.all_cidr_blocks
+    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.cidr_blocks_all
   }
 
   egress {
@@ -33,7 +33,7 @@ resource "aws_security_group" "lb_to_tg_sg" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.all_cidr_blocks
+    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.cidr_blocks_all
   }
 
   egress {
@@ -41,7 +41,7 @@ resource "aws_security_group" "lb_to_tg_sg" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.all_cidr_blocks
+    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.cidr_blocks_all
   }
 
   egress {
@@ -49,15 +49,15 @@ resource "aws_security_group" "lb_to_tg_sg" {
     from_port   = 8080
     to_port     = 8080
     protocol    = "tcp"
-    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.all_cidr_blocks
+    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.cidr_blocks_all
   }
 
   egress {
-    description = "HTTP 8080 Port"
-    from_port   = 32768
+    description = "HTTP 1024 to 65535 Port"
+    from_port   = 1024
     to_port     = 65535
     protocol    = "tcp"
-    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.all_cidr_blocks
+    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.cidr_blocks_all
   }
 
   tags = merge(var.tags, { Name = format("%s-lb-to-tg-sg", local.prefix_name_lower) })
@@ -74,7 +74,7 @@ resource "aws_security_group" "lb_sg" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.all_cidr_blocks
+    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.cidr_blocks_all
   }
 
   ingress {
@@ -82,12 +82,12 @@ resource "aws_security_group" "lb_sg" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.all_cidr_blocks
+    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.cidr_blocks_all
   }
 
   ingress {
-    description     = "TCP from 32768 to 65535 Port Range"
-    from_port       = 32768
+    description     = "TCP from 1024 to 65535 Port Range"
+    from_port       = 1024
     to_port         = 65535
     protocol        = "tcp"
     security_groups = [aws_security_group.lb_to_tg_sg.id]
@@ -98,7 +98,7 @@ resource "aws_security_group" "lb_sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.all_cidr_blocks
+    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.cidr_blocks_all
   } */
 
   tags = merge(var.tags, { Name = format("%s-lb-sg", local.prefix_name_lower) })
@@ -115,16 +115,16 @@ resource "aws_security_group" "jenkins_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.all_cidr_blocks
+    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.cidr_blocks_all
   }
 
   ingress {
-    description     = "TCP from 32768 to 65535"
-    from_port       = 32768
+    description     = "TCP from 1024 to 65535"
+    from_port       = 1024
     to_port         = 65535
     protocol        = "tcp"
     security_groups = [aws_security_group.lb_sg.id, aws_security_group.lb_to_tg_sg.id]
-    cidr_blocks     = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.all_cidr_blocks
+    cidr_blocks     = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.cidr_blocks_all
   }
 
   ingress {
@@ -140,7 +140,7 @@ resource "aws_security_group" "jenkins_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.all_cidr_blocks
+    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.cidr_blocks_all
   }
 
   egress {
@@ -148,7 +148,7 @@ resource "aws_security_group" "jenkins_sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.all_cidr_blocks
+    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.cidr_blocks_all
   }
 
   tags = merge(var.tags, { Name = format("%s-sg", local.prefix_name_lower) })
@@ -161,11 +161,11 @@ resource "aws_security_group" "jenkins_agent_sg" {
   vpc_id                 = var.vpc_id
 
   ingress {
-    description = "Container Ports 49153 to 65535 Port Range"
-    from_port   = 49153
+    description = "Container Ports 1024 to 65535 Port Range"
+    from_port   = 1024
     to_port     = 65535
     protocol    = "tcp"
-    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.all_cidr_blocks
+    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.cidr_blocks_all
   }
 
   ingress {
@@ -181,7 +181,7 @@ resource "aws_security_group" "jenkins_agent_sg" {
     from_port   = var.jnlp_port
     to_port     = var.jnlp_port
     protocol    = "tcp"
-    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.all_cidr_blocks
+    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.cidr_blocks_all
   }
 
   tags = merge(var.tags, { Name = format("%s-agent-sg", local.prefix_name_lower) })
@@ -198,7 +198,7 @@ resource "aws_security_group" "efs_sg" {
     to_port         = 2049
     protocol        = "tcp"
     security_groups = [aws_security_group.jenkins_sg.id, aws_security_group.jenkins_agent_sg.id]
-    cidr_blocks     = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.all_cidr_blocks
+    cidr_blocks     = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.cidr_blocks_all
   }
 
   egress {
@@ -206,7 +206,7 @@ resource "aws_security_group" "efs_sg" {
     from_port   = 2049
     to_port     = 2049
     protocol    = "tcp"
-    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.all_cidr_blocks
+    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.cidr_blocks_all
   }
 
   tags = merge(var.tags, { Name = format("%s-efs-sg", local.prefix_name_lower) })

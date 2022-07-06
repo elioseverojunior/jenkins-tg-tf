@@ -32,9 +32,9 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_additional_security_groups"></a> [additional\_security\_groups](#input\_additional\_security\_groups) | Additional Security Groups Id's | `list(string)` | `[]` | no |
-| <a name="input_all_cidr_blocks"></a> [all\_cidr\_blocks](#input\_all\_cidr\_blocks) | All Subnets CIDR Blocks | `list(string)` | n/a | yes |
-| <a name="input_all_subnets_ids"></a> [all\_subnets\_ids](#input\_all\_subnets\_ids) | All Subnets IDs | `list(string)` | n/a | yes |
-| <a name="input_all_subnets_map"></a> [all\_subnets\_map](#input\_all\_subnets\_map) | All Subnets | <pre>map(object({<br>    availability_zone = string<br>    cidr_block        = string<br>    id                = string<br>  }))</pre> | n/a | yes |
+| <a name="input_cidr_blocks_all"></a> [all\_cidr\_blocks](#input\_all\_cidr\_blocks) | All Subnets CIDR Blocks | `list(string)` | n/a | yes |
+| <a name="input_subnets_all_ids"></a> [all\_subnets\_ids](#input\_all\_subnets\_ids) | All Subnets IDs | `list(string)` | n/a | yes |
+| <a name="input_subnets_all_map"></a> [all\_subnets\_map](#input\_all\_subnets\_map) | All Subnets | <pre>map(object({<br>    availability_zone = string<br>    cidr_block        = string<br>    id                = string<br>  }))</pre> | n/a | yes |
 | <a name="input_application"></a> [application](#input\_application) | Application Name | `string` | n/a | yes |
 | <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | AWS Region | `string` | n/a | yes |
 | <a name="input_certificate_arn"></a> [certificate\_arn](#input\_certificate\_arn) | n/a | `string` | `""` | no |
@@ -50,12 +50,12 @@ No modules.
 | <a name="input_jenkins_role_arn"></a> [jenkins\_role\_arn](#input\_jenkins\_role\_arn) | AWS IAM Role ARN | `string` | n/a | yes |
 | <a name="input_jnlp_port"></a> [jnlp\_port](#input\_jnlp\_port) | Agent Port | `number` | `50000` | no |
 | <a name="input_loadbalancer_arn"></a> [loadbalancer\_arn](#input\_loadbalancer\_arn) | AWS EC2 LoadBalancer ARN | `string` | n/a | yes |
-| <a name="input_private_cidr_blocks"></a> [private\_cidr\_blocks](#input\_private\_cidr\_blocks) | Private Subnets CIDR Blocks | `list(string)` | n/a | yes |
-| <a name="input_private_subnets_ids"></a> [private\_subnets\_ids](#input\_private\_subnets\_ids) | Private Subnets IDs | `list(string)` | n/a | yes |
-| <a name="input_private_subnets_map"></a> [private\_subnets\_map](#input\_private\_subnets\_map) | Private Subnets | <pre>map(object({<br>    availability_zone = string<br>    cidr_block        = string<br>    id                = string<br>  }))</pre> | n/a | yes |
-| <a name="input_public_cidr_blocks"></a> [public\_cidr\_blocks](#input\_public\_cidr\_blocks) | Public Subnets CIDR Blocks | `list(string)` | n/a | yes |
-| <a name="input_public_subnets_ids"></a> [public\_subnets\_ids](#input\_public\_subnets\_ids) | Public Subnets IDs | `list(string)` | n/a | yes |
-| <a name="input_public_subnets_map"></a> [public\_subnets\_map](#input\_public\_subnets\_map) | Public Subnets | <pre>map(object({<br>    availability_zone = string<br>    cidr_block        = string<br>    id                = string<br>  }))</pre> | n/a | yes |
+| <a name="input_cidr_blocks_private"></a> [private\_cidr\_blocks](#input\_private\_cidr\_blocks) | Private Subnets CIDR Blocks | `list(string)` | n/a | yes |
+| <a name="input_subnets_private_ids"></a> [private\_subnets\_ids](#input\_private\_subnets\_ids) | Private Subnets IDs | `list(string)` | n/a | yes |
+| <a name="input_subnets_private_map"></a> [private\_subnets\_map](#input\_private\_subnets\_map) | Private Subnets | <pre>map(object({<br>    availability_zone = string<br>    cidr_block        = string<br>    id                = string<br>  }))</pre> | n/a | yes |
+| <a name="input_cidr_blocks_public"></a> [public\_cidr\_blocks](#input\_public\_cidr\_blocks) | Public Subnets CIDR Blocks | `list(string)` | n/a | yes |
+| <a name="input_subnets_public_ids"></a> [public\_subnets\_ids](#input\_public\_subnets\_ids) | Public Subnets IDs | `list(string)` | n/a | yes |
+| <a name="input_subnets_public_map"></a> [public\_subnets\_map](#input\_public\_subnets\_map) | Public Subnets | <pre>map(object({<br>    availability_zone = string<br>    cidr_block        = string<br>    id                = string<br>  }))</pre> | n/a | yes |
 | <a name="input_security_group_efs_id"></a> [security\_group\_efs\_id](#input\_security\_group\_efs\_id) | EFS Security Group ID | `string` | n/a | yes |
 | <a name="input_security_group_jenkins_agent_id"></a> [security\_group\_jenkins\_agent\_id](#input\_security\_group\_jenkins\_agent\_id) | Jenkins Agent Security Group ID | `string` | n/a | yes |
 | <a name="input_security_group_jenkins_id"></a> [security\_group\_jenkins\_id](#input\_security\_group\_jenkins\_id) | Jenkins Security Groups ID | `string` | n/a | yes |
@@ -63,7 +63,7 @@ No modules.
 | <a name="input_selected_subnet_cidr_blocks"></a> [selected\_subnet\_cidr\_blocks](#input\_selected\_subnet\_cidr\_blocks) | Selected Subnets CIDR Blocks | `list(string)` | `[]` | no |
 | <a name="input_selected_subnets_ids"></a> [selected\_subnets\_ids](#input\_selected\_subnets\_ids) | Selected Subnets IDs | `list(string)` | `[]` | no |
 | <a name="input_selected_subnets_map"></a> [selected\_subnets\_map](#input\_selected\_subnets\_map) | Selected Subnets Map | <pre>map(object({<br>    availability_zone = string<br>    cidr_block        = string<br>    id                = string<br>  }))</pre> | `{}` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | description | `map(string)` | <pre>{<br>  "ansible": false,<br>  "deployer": "TBD",<br>  "iac": "terraform",<br>  "owner": "SRE",<br>  "project": "TBD",<br>  "region": "TBD",<br>  "repo": "https://github.com/PasseiDireto/terraform-jenkins-iac.git",<br>  "stack": "TBD",<br>  "tier": "infra"<br>}</pre> | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | description | `map(string)` | <pre>{<br>  "ansible": false,<br>  "deployer": "TBD",<br>  "iac": "terraform",<br>  "owner": "SRE",<br>  "project": "TBD",<br>  "region": "TBD",<br>  "repo": "https://github.com/Agrium/tf-jenkins-br.git",<br>  "stack": "TBD",<br>  "tier": "infra"<br>}</pre> | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | AWS VPC ID | `string` | n/a | yes |
 
 ## Outputs

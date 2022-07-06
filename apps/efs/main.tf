@@ -28,7 +28,7 @@ resource "aws_efs_mount_target" "jenkins_efs_mounting_targets" {
   depends_on = [
     aws_efs_file_system.jenkins_efs
   ]
-  for_each        = length(var.selected_subnets_map) > 0 ? var.selected_subnets_map : var.private_subnets_map
+  for_each        = length(var.selected_subnets_map) > 0 ? var.selected_subnets_map : var.subnets_private_map
   file_system_id  = aws_efs_file_system.jenkins_efs.id
   subnet_id       = each.value.id
   security_groups = local.efs_security_groups

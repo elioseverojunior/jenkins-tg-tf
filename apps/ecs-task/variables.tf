@@ -112,17 +112,17 @@ variable "security_group_efs_id" {
 /*
     VPC Inputs
 */
-variable "all_cidr_blocks" {
+variable "cidr_blocks_all" {
   description = "All Subnets CIDR Blocks"
   type        = list(string)
 }
 
-variable "private_cidr_blocks" {
+variable "cidr_blocks_private" {
   description = "Private Subnets CIDR Blocks"
   type        = list(string)
 }
 
-variable "public_cidr_blocks" {
+variable "cidr_blocks_public" {
   description = "Public Subnets CIDR Blocks"
   type        = list(string)
 }
@@ -133,17 +133,17 @@ variable "selected_subnet_cidr_blocks" {
   default     = []
 }
 
-variable "all_subnets_ids" {
+variable "subnets_all_ids" {
   description = "All Subnets IDs"
   type        = list(string)
 }
 
-variable "private_subnets_ids" {
+variable "subnets_private_ids" {
   description = "Private Subnets IDs"
   type        = list(string)
 }
 
-variable "public_subnets_ids" {
+variable "subnets_public_ids" {
   description = "Public Subnets IDs"
   type        = list(string)
 }
@@ -154,7 +154,7 @@ variable "selected_subnets_ids" {
   default     = []
 }
 
-variable "all_subnets_map" {
+variable "subnets_all_map" {
   description = "All Subnets"
   type = map(object({
     availability_zone = string
@@ -163,7 +163,7 @@ variable "all_subnets_map" {
   }))
 }
 
-variable "private_subnets_map" {
+variable "subnets_private_map" {
   description = "Private Subnets"
   type = map(object({
     availability_zone = string
@@ -172,7 +172,7 @@ variable "private_subnets_map" {
   }))
 }
 
-variable "public_subnets_map" {
+variable "subnets_public_map" {
   description = "Public Subnets"
   type = map(object({
     availability_zone = string
@@ -218,7 +218,7 @@ variable "tags" {
     "owner"    = "SRE"
     "project"  = "TBD"
     "region"   = "TBD"
-    "repo"     = "https://github.com/PasseiDireto/terraform-jenkins-iac.git"
+    "repo"     = "https://github.com/Agrium/tf-jenkins-br.git"
     "stack"    = "TBD"
     "tier"     = "infra"
   }

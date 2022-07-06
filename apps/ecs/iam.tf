@@ -11,6 +11,7 @@ resource "aws_iam_role" "ecs_instance_role" {
           "Service" : sort([
             "ecs-tasks.amazonaws.com",
             "ec2.amazonaws.com",
+            "ssm.amazonaws.com",
             "s3.amazonaws.com",
           ])
         },
@@ -18,6 +19,20 @@ resource "aws_iam_role" "ecs_instance_role" {
       }
     ]
   })
+}
+
+resource "aws_iam_role_policy_attachment" "ssm_ecs_instance_role" {
+  role       = aws_iam_role.ecs_instance_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+resource "aws_ssm_activation" "ssm_ecs_instance_role_activation" {
+  name               = format("%s-ssm-activation", local.prefix_name_lower)
+  description        = "SSM ${local.prefix_name_lower}"
+  iam_role           = aws_iam_role.ecs_instance_role.id
+  registration_limit = "5"
+  depends_on         = [aws_iam_role_policy_attachment.ssm_ecs_instance_role]
+  tags               = merge(var.tags, { Name = local.prefix_name_lower })
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_instance_role_attachment" {
@@ -240,3 +255,40 @@ resource "aws_iam_role_policy" "jenkins_execution_role_policy" {
     ]
   })
 }
+
+resource "aws_iam_role" "ssm_iam_instance_profile_role" {
+  name = format("%s-asg-ssm-profile", local.prefix_name_lower)
+  path = "/"
+
+  assume_role_policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": "sts:AssumeRole",
+            "Principal": {
+               "Service": "ec2.amazonaws.com"
+            },
+            "Effect": "Allow",
+            "Sid": ""
+        }
+    ]
+}
+EOF
+}
+
+# resource "aws_iam_instance_profile" "ssm_iam_instance_profile" {
+#   depends_on = [
+#     aws_iam_role.ssm_iam_instance_profile_role
+#   ]
+#   name = format("%s-asg-ssm-profile", local.prefix_name_lower)
+#   role = aws_iam_role.ssm_iam_instance_profile_role.name
+# }
+
+/* resource "aws_ssm_activation" "ssm_iam_instance_profile_activation" {
+  name               = format("%s-ssm-iam-instance-profile-activation", local.prefix_name_lower)
+  description        = "SSM ${local.prefix_name_lower}"
+  iam_role           = aws_iam_role.ssm_iam_instance_profile_role.id
+  registration_limit = "10"
+  tags               = merge(var.tags, { Name = local.prefix_name_lower })
+} */

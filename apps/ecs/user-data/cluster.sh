@@ -10,6 +10,7 @@ main () {
 	echo "============================================================================================="
 
 	sudo echo "ECS_CLUSTER=${cluster_name}" >> /etc/ecs/ecs.config
+  sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
 	sudo yum update
 	sudo yum upgrade -y
 	sudo yum install -y\
@@ -17,14 +18,6 @@ main () {
 		nfs-utils\
 		jq\
 		htop\
-		python38.x86_64\
-		python38-debug.x86_64\
-		python38-devel.x86_64\
-		python38-libs.x86_64\
-		python38-pip.noarch\
-		python38-setuptools.noarch\
-		python38-test.x86_64\
-		python38-tools.x86_64\
 		rsync\
 		tree\
 		unzip\
@@ -34,9 +27,9 @@ main () {
 	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 	unzip ./awscliv2.zip
 	sudo ./aws/install && rm -rf ./aws
-	sudo mkdir -p /mnt/efs
-	sudo chmod -R go+rw /mnt/efs
-	sudo chown -R 1000:1000 /mnt/efs
+	sudo mkdir -p ${efs_mount_point}
+	sudo chmod -R go+rw ${efs_mount_point}
+	sudo chown -R 1000:1000 ${efs_mount_point}
 	sudo mount -a
 	mount_file_system
 	sudo mount -a

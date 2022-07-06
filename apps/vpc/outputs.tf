@@ -1,46 +1,46 @@
-output "all_subnets_map" {
+output "subnets_all_map" {
   description = "All Subnets"
-  value       = module.all_subnets.subnets
+  value       = module.subnets_all.subnets
 }
 
-output "all_subnets_ids" {
+output "subnets_all_ids" {
   description = "All Subnets IDs"
-  value       = module.all_subnets.ids
+  value       = sort(distinct(module.subnets_all.ids))
 }
 
-output "private_subnets_map" {
+output "subnets_private_map" {
   description = "Private Subnets"
-  value       = module.private_subnets.subnets
+  value       = module.subnets_private.subnets
 }
 
-output "private_subnets_ids" {
+output "subnets_private_ids" {
   description = "Private Subnets IDs"
-  value       = module.private_subnets.ids
+  value       = module.subnets_private.ids
 }
 
-output "public_subnets_map" {
+output "subnets_public_map" {
   description = "Public Subnets"
-  value       = module.public_subnets.subnets
+  value       = module.subnets_public.subnets
 }
 
-output "public_subnets_ids" {
+output "subnets_public_ids" {
   description = "Public Subnets IDs"
-  value       = module.public_subnets.ids
+  value       = module.subnets_public.ids
 }
 
-output "all_cidr_blocks" {
+output "cidr_blocks_all" {
   description = "All Subnets CIDR Blocks"
-  value       = local.all_cidr_blocks
+  value       = local.cidr_blocks_all
 }
 
-output "private_cidr_blocks" {
+output "cidr_blocks_private" {
   description = "Private Subnets CIDR Blocks"
-  value       = local.private_cidr_blocks
+  value       = local.cidr_blocks_private
 }
 
-output "public_cidr_blocks" {
+output "cidr_blocks_public" {
   description = "Public Subnets CIDR Blocks"
-  value       = local.public_cidr_blocks
+  value       = local.cidr_blocks_public
 }
 
 output "selected_subnets_map" {
