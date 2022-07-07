@@ -1,18 +1,37 @@
 dependencies {
-  paths = ["../vpc", "../efs", "../ecs"]
+  paths = ["../00-vpc", "../01-efs"]
 }
 
 dependency "vpc" {
-  config_path = "../vpc"
+  config_path = "../00-vpc"
 }
 
 dependency "efs" {
-  config_path = "../efs"
+  config_path = "../01-efs"
 }
 
-dependency "ecs" {
-  config_path = "../ecs"
+locals {
+  tfenv_version = "latest"
+  remote_state = merge(include.root.remote_state,
+    {
+      backend = include.root.remote_state.backend
+      config = merge(
+        include.root.remote_state.config,
+        {
+          bucket = include.environment.inputs.s3_remote_bucket,
+          region = include.region.inputs.aws_region,
+        }
+      )
+
+      generate = {
+        path      = "backend.tf"
+        if_exists = "overwrite_terragrunt"
+      }
+    }
+  )
 }
+
+remote_state = local.remote_state
 
 include "root" {
   path           = find_in_parent_folders()
@@ -44,31 +63,8 @@ include "application" {
   merge_strategy = "deep"
 }
 
-locals {
-  tfenv_version = "latest"
-  remote_state = merge(include.root.remote_state,
-    {
-      backend = include.root.remote_state.backend
-      config = merge(
-        include.root.remote_state.config,
-        {
-          bucket = include.environment.inputs.s3_remote_bucket,
-          region = include.region.inputs.aws_region,
-        }
-      )
-
-      generate = {
-        path      = "backend.tf"
-        if_exists = "overwrite_terragrunt"
-      }
-    }
-  )
-}
-
-remote_state = local.remote_state
-
 terraform {
-  source = "../../../../../../apps//ecs-task/"
+  source = "../../../../../../apps//ecs/"
 
   before_hook "tfenv" {
     commands = ["init", "plan", "apply", "import", "push", "refresh", "validate", "destroy"]
@@ -77,13 +73,9 @@ terraform {
 }
 
 inputs = {
-  /*
-    ECS inputs
-  */
-  ecs_cluster_id             = dependency.ecs.outputs.ecs_cluster_id
-  loadbalancer_arn           = dependency.ecs.outputs.loadbalancer_arn
-  jenkins_role_arn           = dependency.ecs.outputs.jenkins_role_arn
-  jenkins_execution_role_arn = dependency.ecs.outputs.jenkins_execution_role_arn
+  efs_mount_point               = format("/mnt/%s-%s-%s", include.common.inputs.country, include.environment.inputs.runtime, include.application.inputs.application)
+  key_pair_name                 = "cloud-eng-brazil-nickel"
+  enable_internal_load_balancer = false
 
   /*
     EFS inputs

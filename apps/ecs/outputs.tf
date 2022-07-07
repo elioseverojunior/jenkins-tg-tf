@@ -29,11 +29,6 @@ output "launch_configuration" {
   value       = aws_launch_configuration.lc.id
 }
 
-output "jenkins_role_arn" {
-  description = "AWS IAM Role ARN"
-  value       = aws_iam_role.jenkins_role.arn
-}
-
 output "jenkins_execution_role_arn" {
   description = "AWS IAM Execution Role ARN"
   value       = aws_iam_role.jenkins_execution_role.arn

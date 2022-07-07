@@ -30,11 +30,11 @@ data "template_file" "cluster_user_data" {
 }
 
 resource "aws_launch_configuration" "lc" {
-  name                 = format("%s-lc", local.prefix_name_lower)
+  name_prefix          = format("%s-lc-", local.prefix_name_lower)
   image_id             = data.aws_ami.amazon_linux.id
   instance_type        = var.instance_type
   key_name             = data.aws_key_pair.key_pair.key_name
-  iam_instance_profile = aws_iam_instance_profile.ecs_service_role.name
+  iam_instance_profile = aws_iam_instance_profile.ecs_instance_profile_role.name
   security_groups      = [var.security_group_jenkins_id]
   user_data            = data.template_file.cluster_user_data.rendered
 

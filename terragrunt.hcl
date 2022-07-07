@@ -24,11 +24,10 @@ remote_state {
   backend = "s3"
 
   config = {
-    encrypt                   = true
-    bucket                    = "nutrien-terraform-br-production"
-    key                       = "${path_relative_to_include()}/terraform.tfstate"
-    accesslogging_bucket_name = "nutrien-terraform-br-production-logs"
-    region                    = "us-east-2"
+    encrypt = true
+    bucket  = "nutrien-terraform-br-production"
+    key     = "${path_relative_to_include()}/terraform.tfstate"
+    region  = "us-east-1"
   }
 
   generate = {

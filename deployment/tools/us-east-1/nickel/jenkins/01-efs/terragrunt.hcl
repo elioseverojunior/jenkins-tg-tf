@@ -1,9 +1,9 @@
 dependencies {
-  paths = ["../vpc"]
+  paths = ["../00-vpc"]
 }
 
 dependency "vpc" {
-  config_path = "../vpc"
+  config_path = "../00-vpc"
 }
 
 include "root" {

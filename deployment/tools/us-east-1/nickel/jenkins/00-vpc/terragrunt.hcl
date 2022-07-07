@@ -51,9 +51,8 @@ locals {
       config = merge(
         include.root.remote_state.config,
         {
-          bucket                    = include.environment.inputs.s3_remote_bucket,
-          region                    = include.region.inputs.aws_region,
-          accesslogging_bucket_name = include.environment.inputs.s3_accesslogging_bucket_name
+          bucket = include.environment.inputs.s3_remote_bucket,
+          region = include.region.inputs.aws_region,
         }
       )
 

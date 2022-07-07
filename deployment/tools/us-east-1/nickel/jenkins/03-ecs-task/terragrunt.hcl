@@ -1,17 +1,17 @@
 dependencies {
-  paths = ["../vpc", "../efs", "../ecs"]
+  paths = ["../00-vpc", "../01-efs", "../02-ecs"]
 }
 
 dependency "vpc" {
-  config_path = "../vpc"
+  config_path = "../00-vpc"
 }
 
 dependency "efs" {
-  config_path = "../efs"
+  config_path = "../01-efs"
 }
 
 dependency "ecs" {
-  config_path = "../ecs"
+  config_path = "../02-ecs"
 }
 
 include "root" {
