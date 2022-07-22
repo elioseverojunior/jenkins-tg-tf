@@ -1,4 +1,3 @@
-
 resource "aws_lb_target_group" "lb_tg" {
   name                 = format("%s-target-group", local.prefix_name_lower)
   port                 = 8080

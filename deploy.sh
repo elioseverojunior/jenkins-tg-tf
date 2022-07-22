@@ -4,9 +4,10 @@
 
 CWD=$(pwd)
 REGION="${1:-us-east-1}"
-DEPLOYMENT_TYPE="${2:-deploy}"
+DEPLOYMENT_ACCOUNT="${2:-nickel}"
+DEPLOYMENT_TYPE="${3:-deploy}"
 DEPLOYMENT_APP="$(pwd)/deployment/tools"
-DEPLOYEMNT_DIR="${DEPLOYMENT_APP}/${REGION}/nickel/jenkins"
+DEPLOYEMNT_DIR="${DEPLOYMENT_APP}/${REGION}/${DEPLOYMENT_ACCOUNT}/jenkins"
 
 function main() {
   if [ -d "${DEPLOYEMNT_DIR}" ];
@@ -35,14 +36,14 @@ function main() {
         cd "${APP_DIR}"
         terragrunt init\
          && terragrunt plan -input=false\
-         && terragrunt destroy -auto-approve\
+         && terragrunt destroy -auto-approve
         cd "${CWD}"
       done
     else
       echo -e "Nothing to do."
     fi
   else
-    echo -e "There's no code available to deploy into \"${REGION}\". Please try to choose someone of regions below:";
+    echo -e "There's no code available into \"${REGION}\" deployment region. Please try to choose someone of regions below:";
     find "${DEPLOYMENT_APP}" -type d -maxdepth 1 -mindepth 1 -exec basename {} \;
     echo -e
   fi

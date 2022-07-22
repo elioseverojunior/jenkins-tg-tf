@@ -93,14 +93,6 @@ resource "aws_security_group" "lb_sg" {
     security_groups = [aws_security_group.lb_to_tg_sg.id]
   }
 
-  /* egress {
-    description = "Enabling Outbound to everywhere"
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.cidr_blocks_all
-  } */
-
   tags = merge(var.tags, { Name = format("%s-lb-sg", local.prefix_name_lower) })
 }
 
@@ -148,7 +140,7 @@ resource "aws_security_group" "jenkins_sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.cidr_blocks_all
+    cidr_blocks = flatten(["0.0.0.0/0", length(local.selected_cidr_blocks) > 0 ? local.selected_cidr_blocks : local.cidr_blocks_all])
   }
 
   tags = merge(var.tags, { Name = format("%s-sg", local.prefix_name_lower) })

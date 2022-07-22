@@ -34,7 +34,6 @@ variable "efs_access_point_id" {
 variable "efs_mount_point" {
   description = "EFS Mounting Point in EC2"
   type        = string
-  default     = "/mnt/efs"
 }
 
 variable "efs_root_directory_path" {
