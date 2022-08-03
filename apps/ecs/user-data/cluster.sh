@@ -19,6 +19,7 @@ main () {
 		jq\
 		htop\
 		rsync\
+    traceroute\
 		tree\
 		unzip\
 		vim

@@ -1,5 +1,3 @@
-
-
 module "subnets_all" {
   source           = "./modules//subnets/"
   subnets          = data.aws_subnet.all

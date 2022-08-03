@@ -3,6 +3,18 @@ data "aws_vpc" "this" {
   id    = var.vpc_id
 }
 
+data "aws_security_groups" "default_security_groups" {
+  filter {
+    name   = "group-name"
+    values = ["*default*"]
+  }
+
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.this.id]
+  }
+}
+
 data "aws_subnets" "all" {
   filter {
     name   = "vpc-id"

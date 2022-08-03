@@ -5,12 +5,20 @@ resource "aws_ecs_task_definition" "jenkins_task_definition" {
   network_mode             = "bridge"
   requires_compatibilities = ["EC2"]
 
+  placement_constraints {
+    type       = "memberOf"
+    expression = "attribute:ecs.availability-zone in [${var.aws_region}a, ${var.aws_region}b, ${var.aws_region}c]"
+  }
+
   container_definitions = jsonencode([
     {
-      name              = local.prefix_name_lower
-      image             = var.image
-      memoryReservation = 4096
-      essential         = true
+      cpu                = 512
+      essential          = true
+      execution_role_arn = var.jenkins_execution_role_arn
+      image              = var.image
+      memory             = 8192
+      memoryReservation  = 4096
+      name               = local.prefix_name_lower
       environment = [
         {
           name  = "JAVA_OPTS"
@@ -31,20 +39,20 @@ resource "aws_ecs_task_definition" "jenkins_task_definition" {
           awslogs-stream-prefix     = local.prefix_name_lower
         }
       }
+      mountPoints = [
+        {
+          sourceVolume  = local.prefix_name_lower
+          containerPath = "/var/jenkins_home"
+        }
+      ]
       portMappings = [
         {
           containerPort = 8080
           protocol      = "tcp"
         },
         {
-          containerPort = var.jnlp_port
+          containerPort = 5000
           protocol      = "tcp"
-        }
-      ]
-      mountPoints = [
-        {
-          sourceVolume  = local.prefix_name_lower
-          containerPath = "/var/jenkins_home"
         }
       ]
     }
@@ -56,7 +64,7 @@ resource "aws_ecs_task_definition" "jenkins_task_definition" {
     efs_volume_configuration {
       file_system_id     = var.efs_file_system_id
       transit_encryption = "ENABLED"
-      root_directory     = format("%s%s", var.efs_mount_point, var.efs_root_directory_path)
+      root_directory     = var.efs_mount_point
       authorization_config {
         access_point_id = var.efs_access_point_id
         iam             = "DISABLED"

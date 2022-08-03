@@ -84,6 +84,7 @@ inputs = {
   loadbalancer_arn           = dependency.ecs.outputs.loadbalancer_arn
   jenkins_role_arn           = dependency.ecs.outputs.jenkins_role_arn
   jenkins_execution_role_arn = dependency.ecs.outputs.jenkins_execution_role_arn
+  efs_mount_point            = dependency.ecs.outputs.efs_mount_point
 
   /*
     EFS inputs

@@ -60,7 +60,7 @@ variable "instance_type" {
 variable "asg_min_size" {
   description = "AWS ASG Minimum Capacity"
   type        = number
-  default     = 1
+  default     = 0
 }
 
 variable "asg_max_size" {

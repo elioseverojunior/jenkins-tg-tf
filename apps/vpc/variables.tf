@@ -63,22 +63,43 @@ variable "additional_security_groups" {
   default     = []
 }
 
-variable "access_cidr_blocks" {
+variable "access_cidr_blocks_ipv4" {
   description = "Access CIDR Blocks"
   type        = list(string)
-  default     = []
+  default = [
+    "191.13.225.219/32"
+  ]
 }
 
-variable "additional_whitelisted_cidr_blocks" {
+variable "additional_whitelisted_cidr_blocks_ipv4" {
   description = "description"
   type        = list(string)
   default     = []
 }
 
-variable "corp_whitelisted_cidr_blocks" {
+variable "aws_vpc_cidr_blocks_ipv4" {
   description = "description"
   type        = list(string)
   default     = []
+}
+
+variable "corp_whitelisted_cidr_blocks_ipv4" {
+  description = "description"
+  type        = list(string)
+  default = [
+    "10.0.0.0/8"
+  ]
+}
+
+variable "github_webhooks_cidr_blocks_ipv4" {
+  description = "description"
+  type        = list(string)
+  default = [
+    "192.30.252.0/22",
+    "185.199.108.0/22",
+    "140.82.112.0/20",
+    "143.55.64.0/20",
+  ]
 }
 
 variable "selected_subnets" {
